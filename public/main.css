@@ -1,5 +1,6 @@
 :root {
     --yellow: #FFBF00;
+    --yellow-dark: #c29201;
     --blue: #000099;
     --blue-light: #0000EE;
     --green: #4F4;
@@ -101,11 +102,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    border: 10px solid transparent;
+
+}
+
+.quatre-suite .points .gagne {
+    background: var(--yellow);
+    color: #000;
 }
 
 .quatre-suite .points .active {
-    background: var(--yellow);
-    color: #000;
+    border: 10px solid var(--yellow-dark);
 }
 
 .quatre-suite #chrono {

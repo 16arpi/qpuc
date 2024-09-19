@@ -5,7 +5,7 @@
         <label id="label-trois" class="" >3</label>
         <label id="label-deux" class="" >2</label>
         <label id="label-un" class="" >1</label>
-        <label id="label-zero" class="active" >0</label>
+        <label id="label-zero" class="active gagne" >0</label>
     </div>
     <div class="inner">
         <label id="chrono" >40</label>
@@ -29,7 +29,8 @@
     audioProgress.loop = true;
 
     var now = 40;
-    var point = 0;
+    var points = 0;
+    var cursorPos = 0;
     let timer = undefined;
     let timerSound = undefined;
 
@@ -42,10 +43,11 @@
         document.getElementById("label-quatre")
     ]
 
-    function setPoint(point) {
-        for (let i = 0; i < 5; ++i) labelPoints[i].className = ""
-        for (let i = 0; i <= point; ++i) {
-            labelPoints[i].className = "active"
+    function updatePointsCursor(point) {
+        for (let i = 0; i < 5; ++i) {
+            let gagne = i <= points ? "gagne" : "";
+            let active = cursorPos == i ? "active" : "";
+            labelPoints[i].className = [gagne, active].join(" ");
         }
     }
 
@@ -56,14 +58,26 @@
     }
 
     function addPoint() {
-        if (point == 4) return;
-        setPoint(++point);
+        if (points == 4) return;
+
+        cursorPos++;
+
+        if (cursorPos > points) {
+            points++;
+        }
+
+        updatePointsCursor();
         audioBonneReponse.play();
     }
 
     function resetPoint() {
-        point = 0;
-        setPoint(point);
+        if (cursorPos == 0) {
+            points = 0;
+        } else {
+            cursorPos = 0;
+        }
+
+        updatePointsCursor();
     }
 
     function start() {
@@ -88,7 +102,7 @@
         }, 1000);
     }
 
-    function reset() {
+    function resetChrono() {
         clearInterval(timer)
         audioProgress.pause();
         audioProgress.currentTime = 0;
@@ -121,6 +135,6 @@
 
     sockets.on('suite reset', () => {
         console.log('')
-        reset()
+        resetChrono()
     })
 </script>
