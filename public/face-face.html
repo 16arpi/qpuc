@@ -1,0 +1,254 @@
+<link rel="stylesheet" href="main.css" />
+<div class="face-face" >
+    <label class="player" id="left" >
+        <label class="name" id="left-name"></label>
+        <label class="score" id="left-score">0</label>
+    </label>
+    <div class="clepsydre" >
+
+        <div class="levels" >
+            <div class="level" id="level-four" >
+                <div class="level-left" >
+
+                </div>
+                <label class="level-point">
+                    4
+                </label>
+                <div class="level-right">
+
+                </div>
+            </div>
+            <div class="level"  id="level-three" >
+                <div class="level-left" >
+
+                </div>
+                <label class="level-point">
+                    3
+                </label>
+                <div class="level-right">
+
+                </div>
+            </div>
+            <div class="level"  id="level-two" >
+                <div class="level-left" >
+
+                </div>
+                <label class="level-point">
+                    2
+                </label>
+                <div class="level-right">
+
+                </div>
+            </div>
+            <div class="level" id="level-one" >
+                <div class="level-left" >
+
+                </div>
+                <label class="level-point">
+                    1
+                </label>
+                <div class="level-right">
+
+                </div>
+            </div>
+        </div>
+        <div id="progress" >h</div>
+    </div>
+    <label class="player" id="right" >
+        <label class="name" id="right-name"></label>
+        <label class="score" id="right-score">0</label>
+    </label>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+    const sockets = io('http://localhost:8081');
+
+    // audios
+    var audioBonneReponse = new Audio('/audio/bonne_reponse.mp3');
+    var audioTempsEcoule = new Audio('/audio/ecoule_qpuc.mp3');
+    var audioMain = new Audio('/audio/prend_la_main.mp3');
+    var audioProgress = new Audio('/audio/tictac_qpuc_compact.mp3');
+
+    audioProgress.play();
+    audioProgress.pause();
+    audioProgress.loop = true;
+
+    const mainGauche = [true, false, true, false];
+    const mainDroite = [false, true, false, true];
+
+    let progress = document.getElementById("progress");
+    let levels = [
+        document.getElementById("level-four"),
+        document.getElementById("level-three"),
+        document.getElementById("level-two"),
+        document.getElementById("level-one"),
+    ]
+
+    let height = 700;
+    let time = 30 * 1000;
+    let portions = [31, 27, 23, 19];
+    let timeSteps = [31 / 100 * time, 58 / 100 * time, 81 / 100 * time, time];
+    let pause = false;
+
+    let chrono = 0;
+    let timer = undefined;
+    let positions = [undefined, undefined, undefined, undefined];
+
+    let names = ["", ""]
+    let scores = [0, 0]
+
+    console.log(timeSteps);
+
+    // Updaters and util
+
+    function start() {
+        audioProgress.play();
+        return setInterval(() => {
+            if (chrono >= time) {
+                clearInterval(timer)
+                audioProgress.pause();
+                audioProgress.currentTime = 0;
+                audioTempsEcoule.play();
+            }
+
+            chrono += 10;
+            progress.style.height = ((height * chrono) / time) + 'px';
+        }, 10)
+    }
+
+    function updateNames() {
+        document.getElementById("left-name").innerText = names[0];
+        document.getElementById("right-name").innerText = names[1];
+    }
+
+    function updateScores() {
+        document.getElementById("left-score").innerText = scores[0];
+        document.getElementById("right-score").innerText = scores[1];
+    }
+
+    function updatePositions() {
+        for (let i = 0; i < 4; ++i) {
+            pos = positions[i];
+            lev = levels[i];
+
+            lev.className = pos ? "level left" : "level right";
+        }
+    }
+
+    // Outer functions
+
+    function setMain(left) {
+        if (left) {
+            positions = [true, false, true, false];
+        } else {
+            positions = [false, true, false, true];
+        }
+        updatePositions()
+        audioMain.play();
+    }
+
+    function ttop() {
+        if (chrono >= time) {
+            chrono = 0;
+            progress.style.height = '0px';
+
+            audioProgress.pause();
+            audioProgress.currentTime = 0;
+            pause = true;
+        } else if (chrono <= 0) {
+            timer = start();
+            pause = false;
+        } else {
+            if (pause) {
+                pause = false;
+                timer = start();
+            } else {
+                pause = true;
+                audioProgress.pause();
+                clearInterval(timer)
+            }
+        }
+    }
+
+    function error() {
+        [four, three, two, one] = timeSteps;
+
+        if (0 <= chrono && chrono < four) {
+            console.log("error pos four")
+            positions[0] = !positions[0];
+        } else if (four <= chrono && chrono < three) {
+            console.log("error pos three")
+            positions[1] = !positions[1];
+        } else if (three <= chrono && chrono < two) {
+            console.log("error pos two")
+            positions[2] = !positions[2];
+        } else if (two <= chrono) {
+            console.log("error pos one")
+            positions[3] = !positions[3];
+        }
+        updatePositions()
+    }
+
+    function reset() {
+        clearInterval(timer)
+        chrono = 0;
+        audioProgress.pause();
+        audioProgress.currentTime = 0;
+        pause = true;
+        progress.style.height = '0px';
+    }
+
+    function addPoints(pos, points) {
+        scores[pos] += points;
+        updateScores();
+        audioBonneReponse.play();
+    }
+
+    function resetScores() {
+        scores = [0, 0];
+        updateScores();
+    }
+
+    function setNames(n1, n2) {
+        names = [n1, n2];
+        updateNames();
+    }
+
+    // Sockets
+
+    sockets.on('face face set score', (pos, points) => {
+        console.log('')
+        addPoints(pos, points)
+    })
+
+    sockets.on('face face set main', (left) => {
+        console.log('')
+        setMain(left)
+    })
+
+    sockets.on('face face set names', (n1, n2) => {
+        console.log('')
+        setNames(n1, n2)
+    })
+
+    sockets.on('face face reset scores', () => {
+        console.log('')
+        resetScores()
+    })
+
+    sockets.on('face face top', () => {
+        console.log('')
+        ttop()
+    })
+
+    sockets.on('face face error', () => {
+        console.log('')
+        error()
+    })
+
+    sockets.on('face face reset clepsydre', () => {
+        console.log('')
+        reset()
+    })
+</script>

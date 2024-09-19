@@ -1,0 +1,137 @@
+<link rel="stylesheet" href="main.css" />
+<div class="cinq-points" >
+    <div class="player" id="player-one" >
+        <label class="name" id="player-name-one" ></label>
+        <label class="score" id="player-score-one" >0</label>
+    </div>
+    <div class="player" id="player-two" >
+        <label class="name" id="player-name-two" ></label>
+        <label class="score" id="player-score-two" >0</label>
+    </div>
+    <div class="player" id="player-three" >
+        <label class="name" id="player-name-three" ></label>
+        <label class="score" id="player-score-three" >0</label>
+    </div>
+    <div class="player" id="player-four" >
+        <label class="name" id="player-name-four" ></label>
+        <label class="score" id="player-score-four" >0</label>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+    const sockets = io('http://localhost:8081');
+
+    // audios
+    var audioBonneReponse = new Audio('/audio/bonne_reponse.mp3');
+    var audioTempsEcoule = new Audio('/audio/ecoule_qpuc.mp3');
+    var audioError = new Audio('/audio/faux.mp3')
+
+    var scores = [0, 0, 0, 0]
+    var names = ["", "", "", ""]
+    var show = 4;
+    var players = [
+        document.getElementById("player-one"),
+        document.getElementById("player-two"),
+        document.getElementById("player-three"),
+        document.getElementById("player-four")
+    ]
+
+    // Updates
+    function updateScores() {
+        document.getElementById("player-score-one").innerText = scores[0];
+        document.getElementById("player-score-two").innerText = scores[1];
+        document.getElementById("player-score-three").innerText = scores[2];
+        document.getElementById("player-score-four").innerText = scores[3];
+    }
+
+    function updateNames() {
+        document.getElementById("player-name-one").innerText = names[0];
+        document.getElementById("player-name-two").innerText = names[1];
+        document.getElementById("player-name-three").innerText = names[2];
+        document.getElementById("player-name-four").innerText = names[3];
+    }
+
+    function updateShow() {
+        for (let i = 0; i < players.length; ++i ) players[i].style.display = "none";
+        for (let i = 0; i < show; ++i ) {
+            players[i].style.display = "flex";
+        }
+    }
+
+    // Outer functions
+
+    function setNames(n1, n2, n3, n4) {
+        names = [n1, n2, n3, n4];
+        updateNames()
+    }
+
+    function addPoint(pos, points) {
+        scores[pos] += points;
+        updateScores();
+        audioBonneReponse.play();
+    }
+
+    function resetPoints() {
+        scores = [0, 0, 0, 0];
+        updateScores();
+    }
+
+    function removePlayer() {
+        show -= 1;
+        if (show < 0) show = 0;
+        updateShow()
+    }
+
+    function addPlayer() {
+        show += 1;
+        if (show > 4) show = 4;
+        updateShow()
+    }
+
+    function ecoule() {
+        audioTempsEcoule.play();
+    }
+
+    function error() {
+        audioError.play();
+    }
+
+    /* sockets */
+
+    sockets.on('five points add score', (pos, points) => {
+        console.log("receiving")
+        addPoint(pos, points)
+    })
+
+    sockets.on('five points set names', (n1, n2, n3, n4) => {
+        console.log('')
+        setNames(n1, n2, n3, n4)
+    })
+
+    sockets.on('five points remove player', () => {
+        console.log('')
+        removePlayer()
+    })
+
+    sockets.on('five points add player', () => {
+        console.log('')
+        addPlayer()
+    })
+
+    sockets.on('five points reset scores', () => {
+        console.log('')
+        resetPoints()
+    })
+
+    sockets.on('five points ecoule', () => {
+        console.log('')
+        ecoule()
+    })
+
+    sockets.on('five points error', () => {
+        console.log('')
+        error()
+    })
+</script>

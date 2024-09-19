@@ -1,0 +1,305 @@
+<!--
+    À prévoir
+
+    5 points gagants / autre à la suite
+    -
+-->
+<meta charset="utf-8" />
+<style>
+    body {
+        font-family: sans-serif;
+        display: flex;
+        flex-wrap: wrap;
+        flex-basis: 2;
+    }
+
+    body > div {
+        flex-grow: 0.5;
+    }
+    input {
+        margin: 7px;
+    }
+    table td, table th {
+        border: 1px solid #000;
+    }
+    table th {
+        padding: 5px;
+    }
+    table {
+        border-collapse: collapse;
+    }
+</style>
+<div >
+    <h3>Général</h3>
+    <table>
+        <tr>
+            <input type="button" value="Jingle long" onclick="jingleLong()">
+            <input type="button" value="Jingle court" onclick="jingleCourt()">
+            <br/><input type="button" value="Entrée animateur + candidats PLAY" onclick="jingleAnimateurStart()" />
+            <br/><input type="button" value="Entrée animateur + candidats STOP" onclick="jingleAnimateurPause()"/>
+        </tr>
+    </table>
+</div>
+<div >
+    <h3>5 points gagants + 4 à la suite</h3>
+    <table >
+        <tr>
+            <th>Joueur 1</th>
+            <th>Joueur 2</th>
+        </tr>
+        <tr>
+            <td><input type="text" placeholder="Nom" id="player-one-name" /></td>
+            <td><input type="text" placeholder="Nom" id="player-two-name" /></td>
+
+        </tr>
+        <tr>
+            <td>
+                <input type="button" onclick="fivePointsScore(0, 1)" value="+1" />
+                <input type="button" onclick="fivePointsScore(0, 2)" value="+2" />
+                <input type="button" onclick="fivePointsScore(0, 3)" value="+3" />
+                <input type="button" onclick="fivePointsScore(0, 4)" value="+4" />
+                <input type="button" onclick="fivePointsScore(0, -1)" value="-1" />
+            </td>
+            <td>
+                <input type="button" onclick="fivePointsScore(1, 1)" value="+1" />
+                <input type="button" onclick="fivePointsScore(1, 2)" value="+2" />
+                <input type="button" onclick="fivePointsScore(1, 3)" value="+3" />
+                <input type="button" onclick="fivePointsScore(1, 4)" value="+4" />
+                <input type="button" onclick="fivePointsScore(1, -1)" value="-1" />
+            </td>
+
+        </tr>
+        <tr>
+            <th>Joueur 3</th>
+            <th>Joueur 4</th>
+        </tr>
+        <tr>
+            <td><input type="text" placeholder="Nom" id="player-three-name" /></td>
+            <td><input type="text" placeholder="Nom" id="player-four-name" /></td>
+
+        </tr>
+        <tr>
+            <td>
+                <input type="button" onclick="fivePointsScore(2, 1)" value="+1" />
+                <input type="button" onclick="fivePointsScore(2, 2)" value="+2" />
+                <input type="button" onclick="fivePointsScore(2, 3)" value="+3" />
+                <input type="button" onclick="fivePointsScore(2, 4)" value="+4" />
+                <input type="button" onclick="fivePointsScore(2, -1)" value="-1" />
+            </td>
+            <td>
+                <input type="button" onclick="fivePointsScore(3, 1)" value="+1" />
+                <input type="button" onclick="fivePointsScore(3, 2)" value="+2" />
+                <input type="button" onclick="fivePointsScore(3, 3)" value="+3" />
+                <input type="button" onclick="fivePointsScore(3, 4)" value="+4" />
+                <input type="button" onclick="fivePointsScore(3, -1)" value="-1" />
+            </td>
+        </tr>
+        <tr >
+            <td colspan="2">
+                <input type="button" onclick="fivePointsNames()" value="Afficher les noms">
+                <input type="button" onclick="fivePointsRemovePlayer()" value="Enlever un joueur">
+                <input type="button" onclick="fivePointsAddPlayer()" value="Ajouter un joueur">
+                <br/><input type="button" onclick="fivePointsResetScores()" value="Mettre les scores à zero">
+                <input type="button" onclick="fivePointsEcoule()" value="Son temps écoulé">
+                <input type="button" onclick="fivePointsError()" value="Mauvaise réponse">
+            </td>
+        </tr>
+    </table>
+</div>
+<div >
+    <h3>4 à la suite</h3>
+    <table>
+        <tr>
+            <td>
+                jingle choix du thème
+                <br/><input type="button" value="play" onclick="jingleChoixThemeStart()" />
+                <input type="button" value="pause" onclick="jingleChoixThemePause()"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" placeholder="Thème" id="suite-theme" />
+                <input type="button" onclick="suiteTheme()" value="Afficher le thème" />
+            </td>
+        </tr>
+        <tr >
+            <td >
+                <input type="button" onclick="suiteAddPoint()" value="+1 au score">
+                <input type="button" onclick="suiteZero()" value="Mettre à zero">
+                <input type="button" onclick="suiteStart()" value="Lancer chrono">
+                <input type="button" onclick="suiteReset()" value="Reset chrono">
+            </td>
+        </tr>
+    </table>
+</div>
+<div>
+    <h3>Face à face</h3>
+    <table >
+        <tr>
+            <th>Joueur gauche</th>
+            <th>Joueur droite</th>
+        </tr>
+        <tr>
+            <td><input type="text" placeholder="Nom" id="player-left-name" /></td>
+            <td><input type="text" placeholder="Nom" id="player-right-name" /></td>
+
+        </tr>
+        <tr>
+            <td>
+                <input type="button" onclick="setMain(true)" value="À la main" />
+                <br/><input type="button" onclick="faceFaceScore(0, 1)" value="+1" />
+                <input type="button" onclick="faceFaceScore(0, 2)" value="+2" />
+                <input type="button" onclick="faceFaceScore(0, 3)" value="+3" />
+                <input type="button" onclick="faceFaceScore(0, 4)" value="+4" />
+                <input type="button" onclick="faceFaceScore(0, -1)" value="-1" />
+            </td>
+            <td>
+                <input type="button" onclick="setMain(false)" value="À la main" />
+                <br/><input type="button" onclick="faceFaceScore(1, 1)" value="+1" />
+                <input type="button" onclick="faceFaceScore(1, 2)" value="+2" />
+                <input type="button" onclick="faceFaceScore(1, 3)" value="+3" />
+                <input type="button" onclick="faceFaceScore(1, 4)" value="+4" />
+                <input type="button" onclick="faceFaceScore(1, -1)" value="-1" />
+            </td>
+        </tr>
+        <tr >
+            <td colspan="2">
+                <input type="button" onclick="faceFaceSetNames()" value="Afficher les noms">
+                <input type="button" onclick="faceFaceResetScore()" value="Reset score">
+                <br/><input type="button" onclick="faceFaceTop()" value="Play/Pause">
+                <input type="button" onclick="faceFaceError()" value="Erreur du joueur">
+                <input type="button" onclick="faceFaceResetClepsydre()" value="Reset chrono">
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    /* five points */
+    const sockets = io('http://localhost:8081');
+
+    const audioAnimateur = new Audio('/audio/entree_animateur.mp3')
+    const audioJingleLong = new Audio('/audio/jingle_long.mp3')
+    const audioJingleCourt = new Audio('/audio/jingle_court.mp3')
+    const audioChoixTheme = new Audio('/audio/choix_theme.mp3')
+
+    audioChoixTheme.loop = true;
+
+    // jingles
+
+    function jingleLong() {
+        audioJingleLong.play();
+    }
+
+    function jingleCourt() {
+        audioJingleCourt.play();
+    }
+
+    function jingleAnimateurStart() {
+        audioAnimateur.play();
+    }
+
+    function jingleAnimateurPause() {
+        audioAnimateur.pause();
+        audioAnimateur.currentTime = 0;
+    }
+
+    function fivePointsScore(pos, points) {
+        sockets.emit('five points add score', pos, points)
+    }
+
+    function fivePointsNames() {
+        let n1 = document.getElementById("player-one-name").value;
+        let n2 = document.getElementById("player-two-name").value;
+        let n3 = document.getElementById("player-three-name").value;
+        let n4 = document.getElementById("player-four-name").value;
+        sockets.emit('five points set names', n1, n2, n3, n4)
+    }
+
+    function fivePointsRemovePlayer() {
+        sockets.emit('five points remove player')
+    }
+
+    function fivePointsAddPlayer() {
+        sockets.emit('five points add player')
+    }
+
+    function fivePointsResetScores() {
+        sockets.emit('five points reset scores')
+    }
+
+    function fivePointsEcoule() {
+        sockets.emit('five points ecoule')
+    }
+
+    function fivePointsError() {
+        sockets.emit('five points error')
+    }
+
+    /* quatre suite */
+
+    function jingleChoixThemeStart() {
+        audioChoixTheme.play();
+    }
+
+    function jingleChoixThemePause() {
+        audioChoixTheme.pause();
+        audioChoixTheme.currentTime = 0;
+    }
+
+    function suiteTheme() {
+        let theme = document.getElementById('suite-theme').value;
+        sockets.emit('suite set theme', theme)
+    }
+
+    function suiteAddPoint() {
+        sockets.emit('suite add point')
+    }
+
+    function suiteZero() {
+        sockets.emit('suite set zero')
+    }
+
+    function suiteStart() {
+        sockets.emit('suite start')
+    }
+
+    function suiteReset() {
+        sockets.emit('suite reset')
+    }
+
+    /* face face */
+
+    function faceFaceScore(pos, points) {
+        sockets.emit('face face set score', pos, points)
+    }
+
+    function setMain(left) {
+        sockets.emit('face face set main', left)
+    }
+
+    function faceFaceSetNames() {
+        let nameLeft = document.getElementById('player-left-name').value;
+        let nameRight = document.getElementById('player-right-name').value;
+        sockets.emit('face face set names', nameLeft, nameRight)
+    }
+
+    function faceFaceResetScore() {
+        sockets.emit('face face reset scores')
+    }
+
+    function faceFaceTop() {
+        sockets.emit('face face top')
+    }
+
+    function faceFaceError() {
+        sockets.emit('face face error')
+    }
+
+    function faceFaceResetClepsydre() {
+        sockets.emit('face face reset clepsydre')
+    }
+
+
+</script>

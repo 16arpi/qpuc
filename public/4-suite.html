@@ -1,0 +1,126 @@
+<link rel="stylesheet" href="main.css" />
+<div class="quatre-suite" >
+    <div class="points" >
+        <label id="label-quatre" class="" >4</label>
+        <label id="label-trois" class="" >3</label>
+        <label id="label-deux" class="" >2</label>
+        <label id="label-un" class="" >1</label>
+        <label id="label-zero" class="active" >0</label>
+    </div>
+    <div class="inner">
+        <label id="chrono" >40</label>
+        <div class="theme" >
+            <label id="theme-label" ></label>
+        </div>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const sockets = io('http://localhost:8081');
+
+    // audios
+    var audioBonneReponse = new Audio('/audio/bonne_reponse.mp3');
+    var audioTempsEcoule = new Audio('/audio/ecoule_qpuc.mp3');
+    var audioProgress = new Audio('/audio/tictac_qpuc_compact.mp3');
+
+    audioProgress.play();
+    audioProgress.pause();
+    audioProgress.loop = true;
+
+    var now = 40;
+    var point = 0;
+    let timer = undefined;
+    let timerSound = undefined;
+
+    let chrono = document.getElementById("chrono");
+    let labelPoints = [
+        document.getElementById("label-zero"),
+        document.getElementById("label-un"),
+        document.getElementById("label-deux"),
+        document.getElementById("label-trois"),
+        document.getElementById("label-quatre")
+    ]
+
+    function setPoint(point) {
+        for (let i = 0; i < 5; ++i) labelPoints[i].className = ""
+        for (let i = 0; i <= point; ++i) {
+            labelPoints[i].className = "active"
+        }
+    }
+
+    // Outer functions
+
+    function setTheme(string) {
+        document.getElementById("theme-label").innerText = string;
+    }
+
+    function addPoint() {
+        if (point == 4) return;
+        setPoint(++point);
+        audioBonneReponse.play();
+    }
+
+    function resetPoint() {
+        point = 0;
+        setPoint(point);
+    }
+
+    function start() {
+        now = 40;
+        audioProgress.play();
+        timer = setInterval(() => {
+            if (now <= 1) {
+                console.log("end")
+                clearInterval(timer);
+                audioProgress.pause();
+                audioProgress.currentTime = 0;
+
+                audioTempsEcoule.play()
+
+                return;
+            }
+
+            now--;
+            console.log(now)
+            chrono.textContent = now;
+
+        }, 1000);
+    }
+
+    function reset() {
+        clearInterval(timer)
+        audioProgress.pause();
+        audioProgress.currentTime = 0;
+
+        now = 40;
+        chrono.textContent = now;
+    }
+
+    // Sockets
+
+    sockets.on('suite set theme', (theme) => {
+        console.log('')
+        setTheme(theme)
+    })
+
+    sockets.on('suite add point', () => {
+        console.log('')
+        addPoint()
+    })
+
+    sockets.on('suite set zero', () => {
+        console.log('')
+        resetPoint()
+    })
+
+    sockets.on('suite start', () => {
+        console.log('')
+        start()
+    })
+
+    sockets.on('suite reset', () => {
+        console.log('')
+        reset()
+    })
+</script>

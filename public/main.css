@@ -1,0 +1,224 @@
+:root {
+    --yellow: #FFBF00;
+    --blue: #000099;
+    --blue-light: #0000EE;
+    --green: #4F4;
+    --clep-size: 100px;
+    --face-size: 500px;
+    --face-height: 700px;
+}
+
+body {
+    background: var(--blue);
+    display: flex;
+    font-family: sans-serif;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    color: #fff;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+
+}
+
+/* CINQ POINTS GAGNANTS */
+
+.cinq-points {
+    display: flex;
+}
+
+.cinq-points .player {
+    margin: 30px;
+}
+
+.cinq-points .player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cinq-points .player .name {
+    font-size: 60pt;
+}
+
+.cinq-points .player .score {
+    font-size: 80pt;
+    margin-top: 30px;
+    width: 150px;
+    height: 150px;
+    background: var(--blue-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* THEMES QUATRE SUITE */
+
+.themes {
+    display: flex;
+    flex-direction: column;
+}
+
+.themes label {
+    display: block;
+    background: var(--yellow);
+    font-size: 52pt;
+    font-weight: bold;
+    color: #000;
+    padding: 30px;
+    margin: 30px;
+    text-align: center;
+}
+
+.themes .mystere {
+    background: var(--green);
+}
+
+/* QUATRE SUITE */
+
+.quatre-suite {
+    display: flex;
+}
+
+.quatre-suite .points {
+    display: flex;
+    font-size: 72pt;
+    flex-direction: column;
+
+}
+
+.quatre-suite .points label {
+    background: var(--blue-light);
+    width: 120px;
+    height: 120px;
+    margin: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quatre-suite .points .active {
+    background: var(--yellow);
+    color: #000;
+}
+
+.quatre-suite #chrono {
+    font-size: 100pt;
+    text-align: end;
+    flex-grow: 1;
+
+}
+
+.quatre-suite .theme {
+    text-align: center;
+    width: 800px;
+    font-size: 42pt;
+    margin: 10px;
+    background: var(--blue-light)
+}
+
+/* FACE À FACE */
+
+.face-face {
+    display: flex;
+    align-items: center;
+}
+
+.face-face .player {
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.face-face .player .name {
+    font-size: 52pt;
+}
+
+.face-face .player .score {
+    margin-top: 20px;
+    font-size: 62pt;
+}
+
+.face-face .clepsydre {
+    flex-direction: column;
+    background: var(--yellow);
+
+    height: var(--face-height);
+}
+
+.face-face .clepsydre #progress {
+
+    height: 0px;
+    background: var(--blue-light);
+    color: var(--blue-light);
+    width: var(--face-size);
+}
+
+
+.face-face .levels {
+    position: absolute;
+}
+
+.face-face .levels .level {
+    display: flex;
+    align-content: stretch;
+}
+
+.face-face .levels .level-left {
+    width: calc((var(--face-size) - var(--clep-size)) / 2);
+    background: var(--blue);
+}
+
+.face-face .levels .left .level-left {
+    width: calc((var(--face-size) - var(--clep-size)) / 2 - var(--clep-size) / 3);
+}
+
+.face-face .levels .right .level-left {
+    width: calc((var(--face-size) - var(--clep-size)) / 2 + var(--clep-size) / 3);
+}
+
+.face-face .levels .level-right {
+    width: calc((var(--face-size) - var(--clep-size)) / 2);
+    background: var(--blue);
+}
+
+.face-face .levels .left .level-right {
+    width: calc((var(--face-size) - var(--clep-size)) / 2 + var(--clep-size) / 3);
+}
+
+.face-face .levels .right .level-right {
+    width: calc((var(--face-size) - var(--clep-size)) / 2 - var(--clep-size) / 3);
+}
+
+.face-face .levels .level .level-point {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 62pt;
+
+    width: var(--clep-size);
+}
+
+.face-face #level-four {
+    height: calc((var(--face-height) * 31) / 100)
+}
+
+.face-face #level-three {
+    height: calc((var(--face-height) * 27) / 100)
+}
+
+.face-face #level-two {
+    height: calc((var(--face-height) * 23) / 100)
+}
+
+.face-face #level-one {
+    height: calc((var(--face-height) * 19) / 100)
+}
+
