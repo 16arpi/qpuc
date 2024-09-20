@@ -1,5 +1,7 @@
 # Régie *Question pour un champion*
 
+![Preview](preview.png)
+
 Programme qui recrée les interfaces du jeu Questions pour un champion. Je l'ai développé pour une surprise lors d'un anniversaire.
 
 Il consiste en une page web de régie (qui reste sur l'écran d'ordinateur) et d'une page web de simulation du jeu (à mettre sur un écran distant type tv ou vidéo projecteur).
