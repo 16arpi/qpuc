@@ -5,6 +5,10 @@ const { Server } = require('socket.io');
 var server = require('http').createServer(app);
 var io = new Server(server);
 
+app.use((req, res, next) => {
+    //res.setHeader('Content-Security-Policy', 'default-src https://* http://*;')
+    next();
+})
 app.use('/', express.static('public'));
 
 function getHomeLinks() {

@@ -131,8 +131,11 @@
         for (let i = 0; i < 4; ++i) {
             pos = positions[i];
             lev = levels[i];
-
-            lev.className = pos ? "level left" : "level right";
+            if (pos == undefined) {
+                lev.className = "level"
+            } else {
+                lev.className = pos ? "level left" : "level right";
+            }
         }
     }
 
@@ -197,6 +200,8 @@
         audioProgress.currentTime = 0;
         pause = true;
         progress.style.height = '0px';
+        positions = [undefined, undefined, undefined, undefined];
+        updatePositions()
     }
 
     function addPoints(pos, points) {

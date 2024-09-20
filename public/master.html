@@ -9,12 +9,71 @@
     body {
         font-family: sans-serif;
         display: flex;
-        flex-wrap: wrap;
         flex-basis: 2;
+
     }
 
+    .flex {
+        display: flex;
+    }
+
+    #summary {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 100px;
+    }
+
+    input {
+        display: block;
+
+    }
+
+    .big {
+        font-size: 20pt;
+    }
+
+    #panels {
+        display: flex;
+
+        flex-direction: row;
+    }
+
+    #inner-panels {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #audios {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 100px;
+
+        margin: 5px;
+    }
+
+    #cinq-points {
+        flex: 0 0 100px;
+        margin: 5px;
+    }
+
+    #quatre-points {
+        flex: 0 0 100px;
+        margin: 5px;
+    }
+
+    #face-face {
+        flex: 0 0 100px;
+        margin: 5px;
+    }
+
+    input[type=text] {
+        font-size: 14pt;
+    }
+
+    /* OTHER */
+
     body > div {
-        flex-grow: 0.5;
+        flex-grow: 1;
     }
     input {
         margin: 7px;
@@ -29,149 +88,207 @@
         border-collapse: collapse;
     }
 </style>
-<div >
-    <h3>Général</h3>
-    <table>
-        <tr>
+<div id="summary" >
+    <h3>Section</h3>
+    <input type="button" value="5 points gagnants" onclick="showPanel(0)">
+    <input type="button" value="Themes" onclick="showPanel(1)">
+    <input type="button" value="4 à la suite" onclick="showPanel(2)">
+    <input type="button" value="Photo 1" onclick="showPanel(3)">
+    <input type="button" value="Photo 2" onclick="showPanel(4)">
+    <input type="button" value="Photo 3" onclick="showPanel(5)">
+    <input type="button" value="Vidéo pub" onclick="showPanel(6)">
+    <input type="button" value="Face à face" onclick="showPanel(7)">
+</div>
+<div id="panels">
+    <div id="cinq-points" >
+        <h3>5 points gagants + 4 à la suite</h3>
+        <table >
+            <tr>
+                <td colspan="2" >
+                    <div class="flex">
+                        <input class="big" type="button" onclick="fivePointsError()" value="Mauvaise réponse">
+                        <input class="big" type="button" onclick="fivePointsEcoule()" value="Temps écoulé">
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>Joueur 1</th>
+                <th>Joueur 2</th>
+            </tr>
+            <tr>
+                <td><input type="text" placeholder="Nom" id="player-one-name" /></td>
+                <td><input type="text" placeholder="Nom" id="player-two-name" /></td>
+
+            </tr>
+            <tr>
+                <td>
+                    <div class="flex" >
+                        <input type="button" onclick="fivePointsScore(0, 1)" value="+1" />
+                    <input type="button" onclick="fivePointsScore(0, 2)" value="+2" />
+                    <input type="button" onclick="fivePointsScore(0, 3)" value="+3" />
+                    <input type="button" onclick="fivePointsScore(0, 4)" value="+4" />
+                    <input type="button" onclick="fivePointsScore(0, -1)" value="-1" />
+                    </div>
+                </td>
+                <td>
+                    <div class="flex" >
+                        <input type="button" onclick="fivePointsScore(1, 1)" value="+1" />
+                    <input type="button" onclick="fivePointsScore(1, 2)" value="+2" />
+                    <input type="button" onclick="fivePointsScore(1, 3)" value="+3" />
+                    <input type="button" onclick="fivePointsScore(1, 4)" value="+4" />
+                    <input type="button" onclick="fivePointsScore(1, -1)" value="-1" />
+
+                    </div>
+                </td>
+
+            </tr>
+            <tr>
+                <th>Joueur 3</th>
+                <th>Joueur 4</th>
+            </tr>
+            <tr>
+                <td><input type="text" placeholder="Nom" id="player-three-name" /></td>
+                <td><input type="text" placeholder="Nom" id="player-four-name" /></td>
+
+            </tr>
+            <tr>
+                <td>
+                    <div class="flex" >
+                        <input type="button" onclick="fivePointsScore(2, 1)" value="+1" />
+                    <input type="button" onclick="fivePointsScore(2, 2)" value="+2" />
+                    <input type="button" onclick="fivePointsScore(2, 3)" value="+3" />
+                    <input type="button" onclick="fivePointsScore(2, 4)" value="+4" />
+                    <input type="button" onclick="fivePointsScore(2, -1)" value="-1" />
+                    </div>
+                </td>
+                <td>
+                    <div class="flex">
+                        <input type="button" onclick="fivePointsScore(3, 1)" value="+1" />
+                    <input type="button" onclick="fivePointsScore(3, 2)" value="+2" />
+                    <input type="button" onclick="fivePointsScore(3, 3)" value="+3" />
+                    <input type="button" onclick="fivePointsScore(3, 4)" value="+4" />
+                    <input type="button" onclick="fivePointsScore(3, -1)" value="-1" />
+                    </div>
+                </td>
+            </tr>
+            <tr >
+                <td colspan="2">
+                    <div class="flex" >
+                        <input type="button" onclick="fivePointsNames()" value="Afficher les noms">
+                        <input type="button" onclick="fivePointsResetScores()" value="Mettre les scores à zero">
+                    </div>
+                    <div class="flex" >
+                        <input type="button" onclick="fivePointsAddPlayer()" value="Ajouter un joueur">
+
+                        <input type="button" onclick="fivePointsRemovePlayer()" value="Enlever un joueur">
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="inner-panels" >
+        <div id="audios" >
+            <h3>Général</h3>
+            <input class="big" type="button" value="Jingle court" onclick="jingleCourt()">
             <input type="button" value="Jingle long" onclick="jingleLong()">
-            <input type="button" value="Jingle court" onclick="jingleCourt()">
-            <br/><input type="button" value="Entrée animateur + candidats PLAY" onclick="jingleAnimateurStart()" />
-            <br/><input type="button" value="Entrée animateur + candidats STOP" onclick="jingleAnimateurPause()"/>
-        </tr>
-    </table>
-</div>
-<div >
-    <h3>5 points gagants + 4 à la suite</h3>
-    <table >
-        <tr>
-            <th>Joueur 1</th>
-            <th>Joueur 2</th>
-        </tr>
-        <tr>
-            <td><input type="text" placeholder="Nom" id="player-one-name" /></td>
-            <td><input type="text" placeholder="Nom" id="player-two-name" /></td>
+            <input type="button" value="Entrée animateur + candidats PLAY" onclick="jingleAnimateurStart()" />
+            <input type="button" value="Entrée animateur + candidats STOP" onclick="jingleAnimateurPause()"/>
+        </div>
+        <div id="quatre-suite" >
+            <h3>4 à la suite</h3>
+            <table>
+                <tr>
+                    <td>
+                        <div class="flex" >
+                            <input class="big" type="button" onclick="suiteAddPoint()" value="+1 au score">
+                            <input class="big" type="button" onclick="suiteZero()" value="Mettre à zero">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex" style="align-items:center" >
+                            jingle choix du thème
+                        <input type="button" value="play" onclick="jingleChoixThemeStart()" />
+                        <input type="button" value="pause" onclick="jingleChoixThemePause()"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex" >
+                            <input type="text" placeholder="Thème" id="suite-theme" />
+                        <input type="button" onclick="suiteTheme()" value="Afficher le thème" />
+                        </div>
+                    </td>
+                </tr>
+                <tr >
+                    <td >
+                        <div class="flex" >
 
-        </tr>
-        <tr>
-            <td>
-                <input type="button" onclick="fivePointsScore(0, 1)" value="+1" />
-                <input type="button" onclick="fivePointsScore(0, 2)" value="+2" />
-                <input type="button" onclick="fivePointsScore(0, 3)" value="+3" />
-                <input type="button" onclick="fivePointsScore(0, 4)" value="+4" />
-                <input type="button" onclick="fivePointsScore(0, -1)" value="-1" />
-            </td>
-            <td>
-                <input type="button" onclick="fivePointsScore(1, 1)" value="+1" />
-                <input type="button" onclick="fivePointsScore(1, 2)" value="+2" />
-                <input type="button" onclick="fivePointsScore(1, 3)" value="+3" />
-                <input type="button" onclick="fivePointsScore(1, 4)" value="+4" />
-                <input type="button" onclick="fivePointsScore(1, -1)" value="-1" />
-            </td>
+                            <input type="button" onclick="suiteStart()" value="Lancer chrono">
+                            <input type="button" onclick="suiteReset()" value="Reset chrono">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="face-face">
+            <h3>Face à face</h3>
+            <table >
+                <tr>
+                    <td colspan="2" >
+                        <div class="flex" >
+                            <input class="big" type="button" onclick="faceFaceTop()" value="Play/Pause">
+                            <input class="big" type="button" onclick="faceFaceError()" value="Erreur">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Joueur gauche</th>
+                    <th>Joueur droite</th>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="Nom" id="player-left-name" /></td>
+                    <td><input type="text" placeholder="Nom" id="player-right-name" /></td>
 
-        </tr>
-        <tr>
-            <th>Joueur 3</th>
-            <th>Joueur 4</th>
-        </tr>
-        <tr>
-            <td><input type="text" placeholder="Nom" id="player-three-name" /></td>
-            <td><input type="text" placeholder="Nom" id="player-four-name" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="flex" >
+                            <input type="button" onclick="setMain(true)" value="À la main" />
+                        <input type="button" onclick="faceFaceScore(0, 1)" value="+1" />
+                        <input type="button" onclick="faceFaceScore(0, 2)" value="+2" />
+                        <input type="button" onclick="faceFaceScore(0, 3)" value="+3" />
+                        <input type="button" onclick="faceFaceScore(0, 4)" value="+4" />
+                        <input type="button" onclick="faceFaceScore(0, -1)" value="-1" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex" >
+                            <input type="button" onclick="setMain(false)" value="À la main" />
+                        <input type="button" onclick="faceFaceScore(1, 1)" value="+1" />
+                        <input type="button" onclick="faceFaceScore(1, 2)" value="+2" />
+                        <input type="button" onclick="faceFaceScore(1, 3)" value="+3" />
+                        <input type="button" onclick="faceFaceScore(1, 4)" value="+4" />
+                        <input type="button" onclick="faceFaceScore(1, -1)" value="-1" />
+                        </div>
+                    </td>
+                </tr>
+                <tr >
+                    <td colspan="2">
+                        <div class="flex" >
+                            <input type="button" onclick="faceFaceSetNames()" value="Afficher les noms">
+                        <input type="button" onclick="faceFaceResetScore()" value="Reset score">
+                        <input type="button" onclick="faceFaceResetClepsydre()" value="Reset chrono">
 
-        </tr>
-        <tr>
-            <td>
-                <input type="button" onclick="fivePointsScore(2, 1)" value="+1" />
-                <input type="button" onclick="fivePointsScore(2, 2)" value="+2" />
-                <input type="button" onclick="fivePointsScore(2, 3)" value="+3" />
-                <input type="button" onclick="fivePointsScore(2, 4)" value="+4" />
-                <input type="button" onclick="fivePointsScore(2, -1)" value="-1" />
-            </td>
-            <td>
-                <input type="button" onclick="fivePointsScore(3, 1)" value="+1" />
-                <input type="button" onclick="fivePointsScore(3, 2)" value="+2" />
-                <input type="button" onclick="fivePointsScore(3, 3)" value="+3" />
-                <input type="button" onclick="fivePointsScore(3, 4)" value="+4" />
-                <input type="button" onclick="fivePointsScore(3, -1)" value="-1" />
-            </td>
-        </tr>
-        <tr >
-            <td colspan="2">
-                <input type="button" onclick="fivePointsNames()" value="Afficher les noms">
-                <input type="button" onclick="fivePointsRemovePlayer()" value="Enlever un joueur">
-                <input type="button" onclick="fivePointsAddPlayer()" value="Ajouter un joueur">
-                <br/><input type="button" onclick="fivePointsResetScores()" value="Mettre les scores à zero">
-                <input type="button" onclick="fivePointsEcoule()" value="Son temps écoulé">
-                <input type="button" onclick="fivePointsError()" value="Mauvaise réponse">
-            </td>
-        </tr>
-    </table>
-</div>
-<div >
-    <h3>4 à la suite</h3>
-    <table>
-        <tr>
-            <td>
-                jingle choix du thème
-                <br/><input type="button" value="play" onclick="jingleChoixThemeStart()" />
-                <input type="button" value="pause" onclick="jingleChoixThemePause()"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="text" placeholder="Thème" id="suite-theme" />
-                <input type="button" onclick="suiteTheme()" value="Afficher le thème" />
-            </td>
-        </tr>
-        <tr >
-            <td >
-                <input type="button" onclick="suiteAddPoint()" value="+1 au score">
-                <input type="button" onclick="suiteZero()" value="Mettre à zero">
-                <input type="button" onclick="suiteStart()" value="Lancer chrono">
-                <input type="button" onclick="suiteReset()" value="Reset chrono">
-            </td>
-        </tr>
-    </table>
-</div>
-<div>
-    <h3>Face à face</h3>
-    <table >
-        <tr>
-            <th>Joueur gauche</th>
-            <th>Joueur droite</th>
-        </tr>
-        <tr>
-            <td><input type="text" placeholder="Nom" id="player-left-name" /></td>
-            <td><input type="text" placeholder="Nom" id="player-right-name" /></td>
-
-        </tr>
-        <tr>
-            <td>
-                <input type="button" onclick="setMain(true)" value="À la main" />
-                <br/><input type="button" onclick="faceFaceScore(0, 1)" value="+1" />
-                <input type="button" onclick="faceFaceScore(0, 2)" value="+2" />
-                <input type="button" onclick="faceFaceScore(0, 3)" value="+3" />
-                <input type="button" onclick="faceFaceScore(0, 4)" value="+4" />
-                <input type="button" onclick="faceFaceScore(0, -1)" value="-1" />
-            </td>
-            <td>
-                <input type="button" onclick="setMain(false)" value="À la main" />
-                <br/><input type="button" onclick="faceFaceScore(1, 1)" value="+1" />
-                <input type="button" onclick="faceFaceScore(1, 2)" value="+2" />
-                <input type="button" onclick="faceFaceScore(1, 3)" value="+3" />
-                <input type="button" onclick="faceFaceScore(1, 4)" value="+4" />
-                <input type="button" onclick="faceFaceScore(1, -1)" value="-1" />
-            </td>
-        </tr>
-        <tr >
-            <td colspan="2">
-                <input type="button" onclick="faceFaceSetNames()" value="Afficher les noms">
-                <input type="button" onclick="faceFaceResetScore()" value="Reset score">
-                <br/><input type="button" onclick="faceFaceTop()" value="Play/Pause">
-                <input type="button" onclick="faceFaceError()" value="Erreur du joueur">
-                <input type="button" onclick="faceFaceResetClepsydre()" value="Reset chrono">
-            </td>
-        </tr>
-    </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -185,6 +302,12 @@
     const audioChoixTheme = new Audio('/audio/choix_theme.mp3')
 
     audioChoixTheme.loop = true;
+
+    // summary
+
+    function showPanel(pos) {
+        sockets.emit('change panel', pos);
+    }
 
     // jingles
 
