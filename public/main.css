@@ -177,6 +177,7 @@ body {
 .face-face .levels .level {
     display: flex;
     align-content: stretch;
+    border-top: 5px solid var(--blue);
 }
 
 .face-face .levels .level-left {
