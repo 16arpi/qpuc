@@ -10,18 +10,17 @@
     body {
         font-family: sans-serif;
         display: flex;
-        flex-basis: 2;
-
+        flex-direction: column;
     }
 
     .flex {
         display: flex;
+        flex-direction: row;
     }
 
     #summary {
         display: flex;
-        flex-direction: column;
-        flex: 0 0 100px;
+        flex-direction: row;
     }
 
     input {
@@ -35,7 +34,7 @@
 
     #panels {
         display: flex;
-
+        flex-grow: 1;
         flex-direction: row;
     }
 
@@ -55,6 +54,10 @@
     #cinq-points {
         flex: 0 0 100px;
         margin: 5px;
+    }
+
+    #cinq-points table {
+        max-width: 300px;
     }
 
     #quatre-points {
